@@ -1,5 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8" /><title>Streamer Life</title></head>
-<body><p>test</p></body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Streamer Life</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header id="app-header">
+      <div class="brand wordmark">STREAMER LIFE</div>
+      <p class="thesis">
+        Fame is a hostile market. Live is the factory. Shorts are the storefront.
+        Owned audience is the bunker. Integrity is spendable.
+      </p>
+      <div id="top-stats" aria-live="polite"></div>
+    </header>
+
+    <nav id="nav" aria-label="Screens"></nav>
+
+    <main id="screen"></main>
+
+    <footer id="app-footer">
+      <span>Dual CCV always shown · ending_score excludes vanity &amp; bottled viewers</span>
+      <span>Art lock: no mascot · webcam default OFF · numbers-first</span>
+    </footer>
+
+    <script src="js/state.js"></script>
+    <script src="js/formulas.js"></script>
+    <script src="js/dark-market.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+  </body>
 </html>
