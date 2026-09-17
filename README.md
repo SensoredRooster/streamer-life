@@ -330,7 +330,7 @@ None is a complete business. They are opposing gods with different weather.
 First-class system. Not a joke menu. Implemented in `js/dark-market.js` with live state mutations.
 
 | ID | Name | Cash cost | Primary effects (from `js/dark-market.js`) |
-|----|------|-----------|----------------------------------------------|
+|----|------|-----------|---------------------------------------------|
 | `BOT_CCV` | Bottled CCV | $40 | `integrity -8`, detect 18%, `heat +4`, `ccv_bots` += 12–18 |
 | `BOT_CHAT` | Chat Farm | $70 | `integrity -10`, detect 22%, chatters += 6–10 |
 | `RAID_POD` | Raid Pod | $25 | `trust -3`, `heat +6`, `ccv_real` burst 8–14 |
@@ -504,7 +504,7 @@ If `energy_spent > 40` at session end:
 decision_quality *= 0.65 for 90 minutes
 ```
 
-Act 1 `Q10` forces the player to face rest vs lying through the crash. Ops decisions made while crashed should feel worse (misclicks on titles, bad Dark Market impulse, etc.).
+Act 1 `Q10` forces the player to face rest vs lying through the crash. Ops decisions made while crashed should feel worse (misclicks on titles, bad Dark Market impulse, rival choices, etc.).
 
 ---
 

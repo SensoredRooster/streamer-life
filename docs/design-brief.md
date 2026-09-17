@@ -24,7 +24,7 @@ LIVE (factory) -> CLIP (storefront) -> POST (discovery) -> COMMUNITY (retention)
 
 STATS
 Body: energy, sleep debt, voice, RSI, hunger/caffeine
-Craft: game skill per title, commentary, entertainment timing, packaging (title/thumb/hook), tech/OBS, community craft, clip_quality, clip_to_live_quality
+Craft: game skill per title, commentary, entertainment timing, packaging (title/thumb/hook), tech/OBS, community craft
 Market: reach, trust, heat, niche clarity, platform standing, sponsor safety
 Soul: burnout, authenticity-vs-performance gap, isolation, metrics obsession, integrity, parasocial debt
 Post-stream crash: if energy_spent > 40, decision_quality *= 0.65 for 90 minutes
@@ -36,9 +36,9 @@ ALWAYS show two CCV numbers: real vs display. Bottled CCV is a different color i
 
 PLATFORMS (factions, none is a complete business)
 - Twitch: home base, directory sorts by CCV so small = buried. Affiliate ~25 followers / 4 hours / 4 unique days / avg 3 CCV. Sub split 50/50, Plus ladder 60/40 then 70/30 from PAID subs only (Prime/gifts don't count). Bot penalty = cap display CCV to historical real. Multi-stream allowed with "don't advertise the other stream / merged chat" friction.
-- YouTube: delayed pay; YPP gates high (8000 watch hours OR 20M Shorts views / 90d). Silent kill = yellow-dollar event. Members/Super Chat ~70/30.
+- YouTube: archive that pays later. Search + suggested + Shorts. YPP gates high (8000 watch hours OR 20M Shorts views / 90d). Silent kill = yellow-dollar demonetization. Members/Super Chat ~70/30.
 - TikTok/Shorts/Reels: discovery casino. FYP lottery. Low RPM. Trend half-life in days. Risks: synthetic, reproduced, inactivity flags.
-- Kick: 95/5 headline. Thinner city. Partner multi-stream cut; can reduce session payout ~50%.
+- Kick: 95/5 headline. Thinner city. Partner multi-stream toggle can cut that session payout ~50%.
 - Owned land: Discord, email, Patreon. The bunker when ToS changes.
 
 FORMULAS
@@ -58,7 +58,7 @@ SOFT_AIM_SMURF: clip_quality +18, integrity -12, viewer-detect 12%
 RAGE_ALT: clip_quality +35, integrity -28, AC-detect 35%
 DMA_HW: $2500, integrity -40, AC-detect 8% until wave then 55%
 STOLEN_CLIPS: growth +10, integrity -9, strike risk 14%
-Also: enemies can troll-bot YOUR stream to trigger detection. False anti-cheat bans exist (you can get banned while reporting). Stream sniping. Engagement pods. Fake raid trains. 
+Also: enemies can troll-bot YOUR stream to trigger detection. False anti-cheat bans exist (you can get banned while reporting). Stream sniping. Engagement pods. Fake raid trains.
 
 CONTENT TYPES (each has growth / money / risk / energy)
 Ranked, variety, Just Chatting, IRL (safety events), speedrun, gambling (brand death), reaction (copyright), horror, educational, drama/callouts, ASMR, collab, charity/subathon, VTuber (optional content type — still no mascot in the MANAGEMENT GUI).

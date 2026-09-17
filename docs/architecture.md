@@ -142,7 +142,7 @@ Reuse brief IDs exactly:
 This repo's vanilla JS mirrors autoload responsibilities:
 
 | JS | Godot |
-|---|---|
+|----|-------|
 | `state.js` (`window.SLState`) | `GameState` autoload |
 | `formulas.js` (`window.SLFormulas`) | `Formulas` |
 | `dark-market.js` (`window.SLDark`) | `DarkMarket` |
@@ -158,7 +158,5 @@ Port by replacing DOM renders with Godot signals + Control trees; keep formulas 
 - Same data model as ScriptableObjects / plain C# serializable state.
 - Scenes mirror table above; Addressables optional for platform faction assets.
 - Live: RenderTexture from game camera into UI RawImage + TextMeshPro overlay (wordmark/meters). **No avatar controller in mgmt UI.**
-- Save: `JsonUtility` or Newtonsoft; moral_memory as nested DTO.
-- Prefer Godot for primary production unless Unity multiplayer/tooling mandate appears later.
 - Save: `JsonUtility` or Newtonsoft; moral_memory as nested DTO.
 - Prefer Godot for primary production unless Unity multiplayer/tooling mandate appears later.
