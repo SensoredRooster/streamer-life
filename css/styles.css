@@ -1,0 +1,13 @@
+:root { --bg:#07090c; --panel:#10161c; --teal:#1ee6c5; --teal_dim:#0e6f62; --danger:#ff3b5c; --warn:#f5c542; --muted:#7a8894; --text:#e8f0f4; font-family:system-ui,sans-serif; }
+* { box-sizing:border-box; }
+html,body { margin:0; min-height:100%; background:var(--bg); color:var(--text); }
+body { min-height:100vh; }
+.wordmark { color:var(--teal); font-weight:700; letter-spacing:.08em; }
+#app-header,#nav { padding:1rem; border-bottom:1px solid #1a2430; background:#10161c; }
+#app-header { display:flex; gap:1rem; flex-wrap:wrap; }
+#top-stats { display:flex; gap:1rem; margin-left:auto; }
+#screen { max-width:1200px; margin:auto; padding:1.25rem; }
+.panel { background:var(--panel); border:1px solid #1a2430; border-radius:4px; padding:1rem; }
+.btn { background:#152028; color:var(--text); border:1px solid #1a2430; padding:.45rem .75rem; cursor:pointer; }
+.btn.primary { color:var(--teal); border-color:var(--teal); }
+.btn.danger { color:var(--danger); border-color:var(--danger); }
