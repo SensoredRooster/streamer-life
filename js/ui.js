@@ -19,12 +19,52 @@ const SCREENS = [
 
 let currentScreen = 'ops';
 let liveTimer = null;
+let actionLock = false;
+let actionLockTimer = null;
 
 function $(sel) {
   return document.querySelector(sel);
 }
 function $all(sel) {
   return [...document.querySelectorAll(sel)];
+}
+
+/** Prevent double-fire crashes when the player mashes buttons. */
+function withAction(fn) {
+  return function wrappedAction(ev) {
+    if (actionLock) return;
+    actionLock = true;
+    if (actionLockTimer) clearTimeout(actionLockTimer);
+    try {
+      fn(ev);
+    } catch (err) {
+      console.error('[Streamer Life UI]', err);
+      try {
+        const s = window.SLState && window.SLState.STATE;
+        if (s && window.SLState.pushLog) {
+          window.SLState.pushLog(
+            s,
+            `UI fault caught: ${err && err.message ? err.message : err}`,
+            'danger'
+          );
+        }
+      } catch (_) {}
+      try {
+        renderTopBar();
+      } catch (_) {}
+    } finally {
+      actionLockTimer = setTimeout(() => {
+        actionLock = false;
+        actionLockTimer = null;
+      }, 120);
+    }
+  };
+}
+
+function bindClick(sel, fn) {
+  const el = typeof sel === 'string' ? $(sel) : sel;
+  if (!el) return;
+  el.onclick = withAction(fn);
 }
 
 function fmt(n, d = 0) {
@@ -75,14 +115,24 @@ function renderNav() {
 }
 
 function route(id) {
+  if (!id) return;
   currentScreen = id;
-  renderNav();
-  renderScreen();
+  try {
+    renderNav();
+    renderScreen();
+  } catch (err) {
+    console.error('[Streamer Life route]', err);
+  }
 }
 
 function renderScreen() {
-  renderTopBar();
+  try {
+    renderTopBar();
+  } catch (err) {
+    console.error('[Streamer Life top]', err);
+  }
   const root = $('#screen');
+  if (!root) return;
   const map = {
     ops: renderOps,
     live: renderLive,
@@ -95,7 +145,16 @@ function renderScreen() {
     calendar: renderCalendar,
     mediakit: renderMediaKit,
   };
-  (map[currentScreen] || renderOps)(root);
+  try {
+    (map[currentScreen] || renderOps)(root);
+  } catch (err) {
+    console.error('[Streamer Life screen]', currentScreen, err);
+    root.innerHTML = `<section class="panel"><h2>Screen fault</h2><p class="danger mono">${String(
+      err && err.message ? err.message : err
+    )}</p><button class="btn" id="btn-recover">Back to Ops</button></section>`;
+    const b = $('#btn-recover');
+    if (b) b.onclick = withAction(() => route('ops'));
+  }
 }
 
 /* ─── OPS COMMAND ─── */
@@ -204,21 +263,31 @@ function renderOps(root) {
 /* ─── LIVE SESSION ─── */
 function startLive() {
   const s = window.SLState.STATE;
-  if (s.live) return;
+  if (!s || s.live) return;
   s.live = true;
   s.energy_spent = 0;
   s.ccv_real = Math.max(1, Math.floor(1 + s.followers * 0.015));
   window.SLState.pushLog(s, `Live: "${s.stream_title}". Factory open.`, 'teal');
-  if (liveTimer) clearInterval(liveTimer);
+  if (liveTimer) {
+    clearInterval(liveTimer);
+    liveTimer = null;
+  }
   liveTimer = setInterval(() => {
-    if (!window.SLState.STATE.live) {
+    try {
+      const st = window.SLState.STATE;
+      if (!st || !st.live) {
+        clearInterval(liveTimer);
+        liveTimer = null;
+        return;
+      }
+      window.SLFormulas.simulateLiveTick(st);
+      if (currentScreen === 'live') renderScreen();
+      else renderTopBar();
+    } catch (err) {
+      console.error('[Streamer Life live tick]', err);
       clearInterval(liveTimer);
       liveTimer = null;
-      return;
     }
-    window.SLFormulas.simulateLiveTick(window.SLState.STATE);
-    if (currentScreen === 'live') renderScreen();
-    else renderTopBar();
   }, 2000);
 }
 
@@ -486,16 +555,16 @@ function renderDark(root) {
   `;
 
   $all('[data-dm]').forEach((btn) => {
-    btn.onclick = () => {
+    bindClick(btn, () => {
       const res = window.SLDark.applyDarkMarket(btn.dataset.dm, s);
-      if (!res.ok) {
-        window.SLState.pushLog(s, res.msg, 'warn');
+      if (!res || !res.ok) {
+        window.SLState.pushLog(s, (res && res.msg) || 'Dark Market failed.', 'warn');
       } else if (btn.dataset.dm === 'BOT_CCV' && s.quests.Q05.status === 'available') {
         s.quests.Q05.status = 'done';
         window.SLState.pushLog(s, 'Q05: You accepted the lie. ending_score already feels it.', 'danger');
       }
       renderScreen();
-    };
+    });
   });
   $('#btn-troll').onclick = () => {
     window.SLDark.enemyTrollBot(s);
@@ -847,4 +916,6 @@ window.SLUI = {
   renderNav,
   startLive,
   stopLive,
+  withAction,
+  bindClick,
 };

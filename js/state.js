@@ -1,5 +1,5 @@
 /**
- * Streamer Life — Player state
+ * Streamer Life — Player state (canonical schema used by UI)
  * Dual CCV is sacred: never collapse ccv_real and ccv_display.
  * ending_score excludes vanity followers and bottled CCV.
  */
@@ -12,13 +12,12 @@ const INITIAL_STATE = {
   followers: 12,
   ccv_real: 0,
   ccv_bots: 0,
-  // ccv_display = ccv_real + ccv_bots (computed)
   watch_hours: 0,
   clips_ready: 0,
   strikes: 0,
   plus_points: 0,
   sponsor_safety: 80,
-  owned_audience: 3, // Discord + email + Patreon
+  owned_audience: 3,
 
   // Body
   energy: 78,
@@ -60,7 +59,7 @@ const INITIAL_STATE = {
   integrity: 100,
   parasocial_debt: 0,
 
-  // Live session
+  // Live
   live: false,
   live_minutes: 0,
   stream_title: 'just vibing ranked (maybe)',
@@ -77,7 +76,7 @@ const INITIAL_STATE = {
   last_retention: 0,
   last_follows: 0,
 
-  // Dark market flags
+  // Dark / builds
   dma_active: false,
   dma_wave: false,
   soft_aim: false,
@@ -85,13 +84,12 @@ const INITIAL_STATE = {
   detective: false,
 
   // Post-stream crash
-  crash_until: 0, // minute stamp
+  crash_until: 0,
   decision_quality: 1.0,
 
-  // Webcam (default OFF)
   webcam_on: false,
+  media_kit_lie: true,
 
-  // Quests
   quests: {
     Q00: { status: 'available', label: 'CLOCK IN' },
     Q01: { status: 'locked', label: 'FIRST LIGHT' },
@@ -106,39 +104,39 @@ const INITIAL_STATE = {
     Q10: { status: 'locked', label: 'REST OR LIE' },
   },
 
-  // Chat creature training (last 10 reply tones)
   reply_history: [],
 
-  // Platforms
   platforms: {
     twitch: { standing: 35, affiliate: false, split: 0.5 },
-    youtube: { standing: 20, ypp: false, watch_hours: 0 },
+    youtube: { standing: 20, ypp: false, watch_hours: 0, views_90d: 0 },
     shorts: { standing: 15, views_90d: 0 },
     kick: { standing: 10, partner_toggle: false },
     owned: { discord: 2, email: 1, patreon: 0 },
   },
 
   log: [],
-  media_kit_lie: true,
 };
 
 function createState() {
-  return structuredClone(INITIAL_STATE);
+  return typeof structuredClone === 'function'
+    ? structuredClone(INITIAL_STATE)
+    : JSON.parse(JSON.stringify(INITIAL_STATE));
 }
 
 function getCcvDisplay(s) {
-  return (s.ccv_real || 0) + (s.ccv_bots || 0);
+  return (Number(s.ccv_real) || 0) + (Number(s.ccv_bots) || 0);
 }
 
 function getEndingScore(s) {
-  const integrity = Math.max(0, Math.min(100, s.integrity));
-  const burnout = Math.max(0, s.burnout);
-  const health = Math.max(0, s.health);
-  return s.owned_audience * (integrity / 100) * (1 - burnout / 120) * health;
+  const integrity = Math.max(0, Math.min(100, Number(s.integrity) || 0));
+  const burnout = Math.max(0, Number(s.burnout) || 0);
+  const health = Math.max(0, Number(s.health) || 0);
+  const owned = Math.max(0, Number(s.owned_audience) || 0);
+  return owned * (integrity / 100) * (1 - burnout / 120) * health;
 }
 
 function getMinuteStamp(s) {
-  return s.day * 1440 + s.hour * 60;
+  return (Number(s.day) || 0) * 1440 + (Number(s.hour) || 0) * 60;
 }
 
 function refreshDecisionQuality(s) {
@@ -152,16 +150,20 @@ function refreshDecisionQuality(s) {
 }
 
 function pushLog(s, msg, kind = 'info') {
-  s.log.unshift({ t: `D${s.day} ${String(s.hour).padStart(2, '0')}:00`, msg, kind });
+  if (!s.log) s.log = [];
+  s.log.unshift({
+    t: `D${s.day} ${String(s.hour).padStart(2, '0')}:00`,
+    msg: String(msg),
+    kind: kind || 'info',
+  });
   if (s.log.length > 40) s.log.length = 40;
 }
 
 function recomputeOwned(s) {
-  const o = s.platforms.owned;
+  const o = (s.platforms && s.platforms.owned) || {};
   s.owned_audience = (o.discord || 0) + (o.email || 0) + (o.patreon || 0);
 }
 
-// Global mutable state (boot assigns)
 let STATE = createState();
 
 window.SLState = {
