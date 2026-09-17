@@ -55,11 +55,11 @@ python3 -m http.server 8080
 # visit http://localhost:8080
 ```
 
-No build step. No package manager. Vanilla HTML/JS/CSS.
+No build step. No package manager. Vanilla HTML/CSS/JS.
 
 ### Read the design docs
 
-| Doc | Path | Purpose |
+|| Doc | Path | Purpose |
 |-----|------|---------|
 | Locked brief | `docs/design-brief.md` | Source of truth for systems, IDs, tone |
 | Act 1 script | `docs/act1-script.md` | Q00–Q10 dialogue, choices, outcomes |
@@ -81,7 +81,7 @@ No build step. No package manager. Vanilla HTML/JS/CSS.
 
 Fame is a **hostile market**.
 
-| Metaphor | Game meaning |
+|| Metaphor | Game meaning |
 |----------|----------------|
 | Live | Factory (production of hours and moments) |
 | Shorts / clips | Storefront (discovery packaging) |
@@ -117,7 +117,7 @@ If a future asset pass violates this lock, the asset is wrong — not the lock.
 
 Exact tokens (CSS variables in `css/styles.css`):
 
-| Token | Hex | Use |
+|| Token | Hex | Use |
 |-------|-----|-----|
 | `bg` | `#07090C` | Page background |
 | `panel` | `#10161C` | Cards / panels |
@@ -157,7 +157,7 @@ Vanity followers and bottled CCV are **excluded**.
 ending_score = owned_audience * (integrity / 100) * (1 - burnout / 120) * health
 ```
 
-| Term | Meaning |
+|| Term | Meaning |
 |------|---------|
 | `owned_audience` | Discord + email + Patreon (bunker count) |
 | `integrity` | 0–100+ spendable moral capital |
@@ -178,7 +178,7 @@ Implementation: `js/state.js` → ending score helpers. UI surfaces it in the he
 ccv_display = ccv_real + ccv_bots
 ```
 
-| Field | Meaning |
+|| Field | Meaning |
 |-------|---------|
 | `ccv_real` | Actual concurrent humans (approx) |
 | `ccv_bots` | Bottled / synthetic viewers |
@@ -194,7 +194,7 @@ Twitch-style bot penalty (brief): on detection, cap display toward historical re
 
 ### Body
 
-| Stat | Role |
+|| Stat | Role |
 |------|------|
 | `energy` | Session fuel |
 | `sleep_debt` | Accumulates; taxes future sessions |
@@ -206,7 +206,7 @@ Twitch-style bot penalty (brief): on detection, cap display toward historical re
 
 ### Craft (0–1 skill fields in prototype)
 
-| Stat | Role |
+|| Stat | Role |
 |------|------|
 | `game_skill` | Per-title skill (prototype: general) |
 | `commentary` | Talk track |
@@ -218,20 +218,20 @@ Twitch-style bot penalty (brief): on detection, cap display toward historical re
 
 ### Market
 
-| Stat | Role |
+|| Stat | Role |
 |------|------|
 | `reach` | Top-of-funnel potential |
 | `trust` | Conversion & retention glue |
 | `heat` | Attention toxicity / scrutiny |
 | `niche_clarity` | Multiplies impressions |
 | `platform_standing` / `platform_blessing` | Faction weather |
-| `sponsor_safety` | Media kit honesty vs funny |
+| `sponsor_safety` | Brand kit honesty vs funny |
 | `slop_penalty` | Generic content tax |
 | `growth_mod` | Temporary growth hacks (incl. stolen clips) |
 
 ### Soul
 
-| Stat | Role |
+|| Stat | Role |
 |------|------|
 | `burnout` | Soft-ends the run’s meaning |
 | `authenticity_gap` | Performance vs self |
@@ -244,7 +244,7 @@ Twitch-style bot penalty (brief): on detection, cap display toward historical re
 
 ## Currencies
 
-| Currency | Notes |
+|| Currency | Notes |
 |----------|-------|
 | `cash` | Liquid |
 | `pending_payouts` | **NET-15 to NET-120 delay is a mechanic** — fame without liquidity |
@@ -315,7 +315,7 @@ None is a complete business. They are opposing gods with different weather.
 
 - Headline split ~95/5.
 - Thinner city.
-- Partner multi-stream toggle can cut that session ~50%.
+- Partner multi-stream toggle can cut that session payout ~50%.
 
 ### Owned land (bunker)
 
@@ -329,7 +329,7 @@ None is a complete business. They are opposing gods with different weather.
 
 First-class system. Not a joke menu. Implemented in `js/dark-market.js` with live state mutations.
 
-| ID | Name | Cash cost | Primary effects (from `js/dark-market.js`) |
+|| ID | Name | Cash cost | Primary effects (from `js/dark-market.js`) |
 |----|------|-----------|----------------------------------------------|
 | `BOT_CCV` | Bottled CCV | $40 | `integrity -8`, detect 18%, `heat +4`, `ccv_bots` += 12–18 |
 | `BOT_CHAT` | Chat Farm | $70 | `integrity -10`, detect 22%, chatters += 6–10 |
@@ -371,7 +371,7 @@ lurker · chatter · clip goblin · whale · parasocial spouse · backseat cop �
 
 Prototype nav covers all ten:
 
-| # | Screen | Job |
+|| # | Screen | Job |
 |---|--------|-----|
 | 1 | Ops Command | Day board / quests / ops vs live split |
 | 2 | Live Session HUD | Gameplay capture placeholder + chrome (not a character) |
@@ -392,7 +392,7 @@ Webcam control lives in Live HUD chrome; **default OFF**.
 
 Full dialogue/choices live in `docs/act1-script.md`. Summary:
 
-| ID | Title | Beat |
+|| ID | Title | Beat |
 |----|-------|------|
 | `Q00` | CLOCK IN | Side job shift; rent exists |
 | `Q01` | FIRST LIGHT | Stream ~90 minutes |
@@ -579,7 +579,7 @@ Do **not** restart the design from scratch in a random new metaphor.
 
 Seeded in `js/state.js` (`INITIAL_STATE`), approximate:
 
-| Field | Start | Notes |
+|| Field | Start | Notes |
 |-------|-------|-------|
 | `day` | 1 | Act 1 clock |
 | `cash` | 180 | Enough for a few Dark Market mistakes |
@@ -619,7 +619,7 @@ Use this before calling a build “done”:
 
 ## Appendix C — Local + remote locations
 
-| Location | Path |
+|| Location | Path |
 |----------|------|
 | GitHub repo | https://github.com/SensoredRooster/streamer-life |
 | This machine (Documents) | `C:\Users\brand\Documents\streamer-life` |
