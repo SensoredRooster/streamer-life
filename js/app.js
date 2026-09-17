@@ -1,3 +1,34 @@
-/* Streamer Life — boot */
-function boot(){const s=window.SLState.STATE;window.SLState.pushLog(s,'Streamer Life online. Fame is a hostile market. Dual CCV armed.','teal');window.SLUI.renderNav();window.SLUI.route('ops');document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,select'))return;const i=e.key==='0'?9:parseInt(e.key,10)-1;if(i>=0&&i<window.SLUI.SCREENS.length)window.SLUI.route(window.SLUI.SCREENS[i].id);});}
-document.addEventListener('DOMContentLoaded',boot);
+/**
+ * Streamer Life — Boot
+ */
+
+function boot() {
+  const s = window.SLState.STATE;
+  window.SLState.pushLog(
+    s,
+    'Streamer Life online. Fame is a hostile market. Dual CCV armed.',
+    'teal'
+  );
+
+  window.SLUI.renderNav();
+  window.SLUI.route('ops');
+
+  // Keyboard: 1-0 quick screens (optional)
+  document.addEventListener('keydown', (e) => {
+    if (e.target.matches('input, textarea, select')) return;
+    const idx = e.key === '0' ? 9 : parseInt(e.key, 10) - 1;
+    if (idx >= 0 && idx < window.SLUI.SCREENS.length) {
+      window.SLUI.route(window.SLUI.SCREENS[idx].id);
+    }
+  });
+
+  console.info(
+    '[Streamer Life] ending_score =',
+    window.SLState.getEndingScore(s),
+    '| CCV real/display',
+    s.ccv_real,
+    window.SLState.getCcvDisplay(s)
+  );
+}
+
+document.addEventListener('DOMContentLoaded', boot);
