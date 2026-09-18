@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+src-tauri/target/
+src-tauri/gen/
+.tauri/
+# local MCP push scratch (not part of the game)
+push_*.json
+_mcp_push_*.json
+.push_*.json
