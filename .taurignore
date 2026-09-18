@@ -1,0 +1,12 @@
+src-tauri
+node_modules
+.git
+.github
+target
+dist
+*.log
+push_*.json
+_mcp_push_*.json
+.push_*.json
+screens
+docs

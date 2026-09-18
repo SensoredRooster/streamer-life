@@ -1,0 +1,14 @@
+{
+  "name": "streamer-life",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Streamer Life — desktop wrapper (Tauri 2) around the static HTML/CSS/JS prototype",
+  "scripts": {
+    "tauri": "tauri",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.11.4"
+  }
+}
