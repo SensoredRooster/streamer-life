@@ -36,6 +36,16 @@ jobs:
       - name: Install npm dependencies
         run: npm ci
 
+      - name: Materialize Tauri icons
+        shell: pwsh
+        run: ./scripts/write-tauri-icons.ps1
+
+      - name: Ensure Cargo.lock
+        working-directory: src-tauri
+        shell: pwsh
+        run: |
+          if (-not (Test-Path Cargo.lock)) { cargo generate-lockfile }
+
       - name: Build Tauri (Windows)
         run: npm run tauri:build
 
