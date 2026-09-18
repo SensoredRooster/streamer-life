@@ -41,7 +41,6 @@
     const origTop = ui.renderTopBar;
     const origNav = ui.renderNav;
     const origRoute = ui.route;
-    const origLive = ui.renderLive;
 
     if (typeof origTop === 'function') {
       ui.renderTopBar = function patchedTopBar() {
@@ -62,7 +61,7 @@
         const active = sc.id === currentScreen ? 'active' : '';
         const locked = open ? '' : 'locked';
         const pip = open ? '' : '<span class="lock-pip" title="Locked until Coach unlocks">🔒</span>';
-        return `<button type="button" class="nav-btn ${active} ${locked}" data-screen="${sc.id}" data-locked="${open ? '0' : '1'}" ${open ? '' : 'aria-disabled="true"}'>${sc.label}${pip}</button>`;
+        return `<button type="button" class="nav-btn ${active} ${locked}" data-screen="${sc.id}" data-locked="${open ? '0' : '1'}" ${open ? '' : 'aria-disabled="true"'}>${sc.label}${pip}</button>`;
       }).join('');
       [...nav.querySelectorAll('.nav-btn')].forEach((btn) => {
         btn.onclick = () => {
@@ -86,7 +85,6 @@
         }
         window.__slCurrentScreen = id;
         const ret = origRoute.call(this, id);
-        // ui.js calls its local renderNav(); re-apply locked nav after
         try { ui.renderNav(); } catch (_) {}
         if (window.SLCoach) window.SLCoach.renderCoachBar();
         if (window.SLShell) window.SLShell.updateShellChrome();
@@ -95,7 +93,6 @@
     }
 
     if (typeof origTop === 'function') {
-      // also wrap renderScreen if exported
       const origScreen = ui.renderScreen;
       if (typeof origScreen === 'function') {
         ui.renderScreen = function patchedScreen() {
