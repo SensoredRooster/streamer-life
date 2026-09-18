@@ -88,6 +88,8 @@ const INITIAL_STATE = {
   decision_quality: 1.0,
 
   webcam_on: false,
+  coach_guided: true,
+  app_entered: false,
   media_kit_lie: true,
 
   quests: {
