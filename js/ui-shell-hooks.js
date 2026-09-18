@@ -39,7 +39,6 @@
     const ui = window.SLUI;
     if (!ui) return;
     const origTop = ui.renderTopBar;
-    const origNav = ui.renderNav;
     const origRoute = ui.route;
 
     if (typeof origTop === 'function') {
@@ -61,7 +60,8 @@
         const active = sc.id === currentScreen ? 'active' : '';
         const locked = open ? '' : 'locked';
         const pip = open ? '' : '<span class="lock-pip" title="Locked until Coach unlocks">🔒</span>';
-        return `<button type="button" class="nav-btn ${active} ${locked}" data-screen="${sc.id}" data-locked="${open ? '0' : '1'}" ${open ? '' : 'aria-disabled="true"'}>${sc.label}${pip}</button>`;
+        const aria = open ? '' : 'aria-disabled=true';
+        return `<button type="button" class="nav-btn ${active} ${locked}" data-screen="${sc.id}" data-locked="${open ? '0' : '1'}" ${aria}>${sc.label}${pip}</button>`;
       }).join('');
       [...nav.querySelectorAll('.nav-btn')].forEach((btn) => {
         btn.onclick = () => {
