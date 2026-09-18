@@ -10,3 +10,5 @@ _mcp_push_*.json
 .push_*.json
 screens
 docs
+src-tauri/icons-b64
+scripts
