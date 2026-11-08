@@ -1,24 +1,42 @@
 $ErrorActionPreference = "Stop"
-$repo = Resolve-Path (Join-Path $PSScriptRoot "..")
-$src = Join-Path $repo "src-tauri/icons-b64"
-$dst = Join-Path $repo "src-tauri/icons"
-New-Item -ItemType Directory -Force -Path $dst | Out-Null
-$files = Get-ChildItem $src -Filter *.b64
-if (-not $files) {
-  Write-Error "No .b64 icon sources found in $src"
-  exit 1
-}
-foreach ($f in $files) {
-  $outName = $f.BaseName
-  # Strip ALL whitespace (handles CRLF checkouts and wrapped base64)
-  $clean = ((Get-Content $f.FullName -Raw) -replace '\s', '')
-  try {
-    $bytes = [Convert]::FromBase64String($clean)
-  } catch {
-    Write-Error "Failed to base64-decode $($f.Name): $($_.Exception.Message)"
-    exit 1
+
+function Write-StepSummary($text) {
+  if ($env:GITHUB_STEP_SUMMARY) {
+    $text | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8
   }
-  [IO.File]::WriteAllBytes((Join-Path $dst $outName), $bytes)
-  Write-Host "wrote $outName ($($bytes.Length) bytes)"
+  Write-Host $text
 }
-Write-Host "Materialized $($files.Count) icons into $dst"
+
+try {
+  Write-StepSummary "icons step: script body started (pwsh $($PSVersionTable.PSVersion))"
+
+  $repo = Resolve-Path (Join-Path $PSScriptRoot "..")
+  $src = Join-Path $repo "src-tauri/icons-b64"
+  $dst = Join-Path $repo "src-tauri/icons"
+
+  Write-StepSummary "src = $src (exists: $(Test-Path $src))"
+
+  if (-not (Test-Path $src)) { exit 42 }
+  New-Item -ItemType Directory -Force -Path $dst | Out-Null
+
+  $files = Get-ChildItem $src -Filter *.b64
+  Write-StepSummary "found $($files.Count) .b64 files"
+  if (-not $files) { exit 43 }
+
+  foreach ($f in $files) {
+    $outName = $f.BaseName
+    $clean = ((Get-Content $f.FullName -Raw) -replace '\s', '')
+    try {
+      $bytes = [Convert]::FromBase64String($clean)
+    } catch {
+      Write-StepSummary "DECODE FAIL $($f.Name): $($_.Exception.Message)"
+      exit 44
+    }
+    [IO.File]::WriteAllBytes((Join-Path $dst $outName), $bytes)
+    Write-StepSummary "wrote $outName ($($bytes.Length) bytes)"
+  }
+  Write-StepSummary "icons step: SUCCESS"
+} catch {
+  Write-StepSummary "icons step UNEXPECTED ERROR: $($_.Exception.Message) at $($_.InvocationInfo.ScriptLineNumber)"
+  exit 45
+}
