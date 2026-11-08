@@ -1,0 +1,2 @@
+node -e "const fs=require('fs'),p=require('path');const src='src-tauri/icons-b64',dst='src-tauri/icons';fs.mkdirSync(dst,{recursive:true});for(const f of fs.readdirSync(src).filter(x=>x.endsWith('.b64'))){const b=Buffer.from(fs.readFileSync(p.join(src,f),'utf8').replace(/\s/g,''),'base64');fs.writeFileSync(p.join(dst,f.replace(/\.b64$/,'')),b);console.log('wrote',f,b.length,'bytes')}"
+exit $LASTEXITCODE
